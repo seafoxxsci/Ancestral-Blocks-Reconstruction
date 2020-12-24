@@ -1,3 +1,5 @@
+﻿
+
 # ROAGUE: **R**econstruction **o**f **A**ncestral **G**ene Blocks **U**sing **E**vents
 ## Purpose
 
@@ -6,12 +8,11 @@ ROAGUE is a tool to reconstruct ancestors of gene blocks in prokaryotic genomes.
 ROAGUE accepts a set of species and a gene block in a reference species. It then finds all gene blocks, orhtologous to the reference gene blocks, and reconsructs their ancestral states.
 
 ## Requirements
-* [Wget](https://www.gnu.org/software/wget/) 
-* [Conda](https://conda.io/miniconda.html) (package manager so we don't have to use sudo)
+* [Conda](https://conda.io/miniconda.html) 
 * [Python 3+](https://www.python.org/download/releases/3.0/)
 * [Biopython 1.63+](http://biopython.org/wiki/Download)
-* [Clustalw](http://www.clustal.org/clustal2/#Download)
-* [Muscle Alignment](https://www.drive5.com/muscle/downloads.htm)
+* [ClustalW](http://www.clustal.org/clustal2/#Download)
+* [Muscle](https://www.drive5.com/muscle/downloads.htm)
 * [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
 * [ETE3](http://etetoolkit.org/download/) (python framework for tree)
 * [PDA](http://www.cibiv.at/software/pda/#download) (optional if you want to debias your tree base on Phylogenetic Diversity)
@@ -21,7 +22,8 @@ Users can either use github interface Download button or type the following comm
 ```bash
 git clone https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction
 ```
-Install Miniconda (you can either export the path everytime you use ROAGUE, or add it to the .bashrc file). Before using
+<!--
+Install Miniconda (you can either export the path every time you use ROAGUE, or add it to the .bashrc file). Before using
 the following command line, users will need to install [Wget](https://www.gnu.org/software/wget/).
 ```bash
 wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O Miniconda-latest-Linux-x86_64.sh
@@ -30,18 +32,22 @@ export PATH=~/anaconda_ete/bin:$PATH;
 
 ```
 
+    conda create --name roague
+    conda activate roague
+
 Install Biopython and ete3 using conda (highly recommended install biopython with conda)
 ```bash
 conda install -c bioconda biopython ete3
 ```
-Install ete_toolchain for visualization
+-->
+Install ete3 and ete_toolchain for tree visualization
 ```bash
-conda install -c etetoolkit ete_toolchain
+conda install -c etetoolkit ete3 ete_toolchain
 ```
 
-Install BLAST, ClustalW, MUSCLE 
+Install Biopython BLAST, ClustalW, MUSCLE 
 ```bash
-conda install -c bioconda blast clustalw muscle
+conda install -c bioconda biopython blast clustalw muscle
 ```
 
 For PDA, check installation instructions on this website: [PDA](http://www.cibiv.at/software/pda/#download)
@@ -50,7 +56,7 @@ For PDA, check installation instructions on this website: [PDA](http://www.cibiv
 
 The easiest way to run the project is to execute the script [ROAGUE](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/blob/master/roague.py) which is inside the directory [Ancestral-Blocks-Reconstruction]. 
 
-### Run on example datasets for Tracing the ancestry of operons in bacteria 
+### Run on example datasets for tracing the ancestry of operons in bacteria 
 The users can run this script on the example data sets provided in directory [E_Coli](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/tree/master/E_Coli) and [B_Sub](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/tree/master/B_Sub). The two following command lines will run [roague](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/blob/master/roague.py) on our 2 directories. The final results (pdf files of our ancestral reconstructions) are stored in `result/E_Coli/visualization` and `result/B_Sub/visualization` directory by default.
 #### E_Coli
 ```bash
@@ -176,6 +182,7 @@ This gene block catalyzes the synthesis of ATP from ADP and inorganic phosphate 
 ![atpIBEFHAGDC](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/blob/master/images/atp_global_edit.png "Gene block atpIBEFHAGDC")
 ## Credits
 1. http://bioinformatics.oxfordjournals.org/content/early/2015/04/13/bioinformatics.btv128.full 
+
 
 
 

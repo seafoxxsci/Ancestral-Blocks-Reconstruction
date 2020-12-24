@@ -7,7 +7,8 @@ import sys
 import argparse
 from Bio import SeqIO
 from Bio.Seq import Seq
-from Bio.Alphabet import IUPAC
+# Commented out by Iddo 12/2020 no more Bio.Alphabet
+# from Bio.Alphabet import IUPAC
 from Bio.SeqUtils import GC
 from Bio.SeqRecord import SeqRecord
 #from Bio.Seq import Seq
@@ -172,7 +173,8 @@ def convert_genbank(genbank_tuple):
                 #seq = dir(feature)
                 try:
                     if 'translation' in list(feature.qualifiers.keys()):
-                        prot_seq = Seq(''.join(feature.qualifiers['translation']), IUPAC.protein)
+                        # prot_seq = Seq(''.join(feature.qualifiers['translation']), IUPAC.protein)
+                        prot_seq = Seq(''.join(feature.qualifiers['translation']))
                         #print "prot_seq", type(prot_seq), prot_seq
                         
                         if 'gene' in feature.qualifiers:
