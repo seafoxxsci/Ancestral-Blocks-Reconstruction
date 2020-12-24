@@ -57,8 +57,8 @@ def check_options(parsed_args):
     if os.path.isdir(parsed_args.infolder):
         infolder = parsed_args.infolder
     else:
-        print((("The infolder %s does not exist.") % parsed_args.infolder))
-        sys.exit()
+        # print((("The infolder %s does not exist.") % parsed_args.infolder))
+        sys.exit("The infolder {} does not exist.".format(parsed_args.infolder))
     
     outfile = parsed_args.outfile
     
@@ -66,8 +66,8 @@ def check_options(parsed_args):
     if os.path.exists(parsed_args.gene_block_file):
         gene_block_file = parsed_args.gene_block_file
     else:
-        print(("The gene_block file %s does not exist.") % parsed_args.gene_block_file)
-        sys.exit()
+        # print(("The gene_block file %s does not exist.") % parsed_args.gene_block_file)
+        sys.exit("The gene_block file {} does not exist.".format(parsed_args.gene_block_file))
     
     # section of code that deals determining the number of CPU cores that will be used by the program
     if parsed_args.num_proc > os.sysconf("SC_NPROCESSORS_CONF"):

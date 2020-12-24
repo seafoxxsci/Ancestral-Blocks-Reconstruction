@@ -61,8 +61,8 @@ def check_options(parsed_args):
     if os.path.isdir(parsed_args.genbank_directory):
         genbank_directory = parsed_args.genbank_directory
     else:
-        print("The folder %s does not exist." % parsed_args.genbank_directory)
-        sys.exit()
+        # print("The folder %s does not exist." % parsed_args.genbank_directory)
+        sys.exit("format_db: could not find directory {0}".format(parsed_args.genbank_directory))
 
     # if the directory that the user specifies does not exist, then the program makes it for them. 
     if not os.path.isdir(parsed_args.outfolder):
@@ -75,8 +75,8 @@ def check_options(parsed_args):
     if parsed_args.filter == 'NONE' or os.path.exists(parsed_args.filter):
         filter_file = parsed_args.filter
     else:
-        print("The file %s does not exist." % parsed_args.filter)
-        sys.exit()
+        # print("The file %s does not exist." % parsed_args.filter)
+        sys.exit("formatdb: could not find file {0}.".format(parsed_args.filter))
     
     # section of code that deals determining the number of CPU cores that will be used by the program
     if parsed_args.num_proc > os.sysconf("SC_NPROCESSORS_CONF"):

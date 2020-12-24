@@ -84,13 +84,15 @@ if __name__ == '__main__':
     if createdb.upper() == "T":
         print (bcolors.OKGREEN+"Creating BLAST db"+bcolors.ENDC)
         cmd1 ='./format_db.py -i {} -o {}'.format(genomes_directory,db_dir)
-        os.system(cmd1)
         print ('cmd1:',cmd1)
+        rc = os.system(cmd1)
+        if rc != 0:
+            sys.exit("{}Error in creating BLAST db{}".format(bcolors.WARNING,bcolors.ENDC))
     else:
         if os.path.isdir(db_dir):
             print (bcolors.OKGREEN+"Skipping BLAST db creation"+bcolors.ENDC)
         else:
-            raise IOError("db directory " +db_dir+" not found")
+            raise IOError("db directory not found")
             
          
     
@@ -98,22 +100,29 @@ if __name__ == '__main__':
     gene_block_names_and_genes = dirs[0]+"/"+'gene_block_names_and_genes.txt'
     gene_block_query           = parent_dir +'gene_block_query.fa'
     cmd2 ='./make_operon_query.py -i {} -b {} -r {} -o {}'.format(genomes_directory,gene_block_names_and_genes,reference,gene_block_query)
-    os.system(cmd2)
     print (bcolors.OKGREEN+"Querying operons"+bcolors.ENDC)
     print ('cmd2:',cmd2)
+    rc = os.system(cmd2)
+    if rc != 0:
+        sys.exit(("{}Error in make_operon_query{}".format(bcolors.WARNING, bcolcors.ENDC))
     
     ### blasting using db vs the gene_block_query.fa above. output in blast_result
     blast_result = parent_dir+'blast_result/'
     cmd3 ='./blast_script.py -u {} -d {} -o {}'.format(gene_block_query,db_dir,blast_result)
-    os.system(cmd3)
     print ('cmd3:',cmd3)
+    print ("{}BLASTing against genomes{}".format(bcolors.OKGREEN,bcolors.ENDC))
+    rc = os.system(cmd3)
+    if rc != 0:
+        sys.exit(("{}Error in blast_script{}".format(bcolors.WARNING, bcolcors.ENDC))
     
     ### parsing the blast result directory into files that group by operon names, output in blast_parse
     blast_parse = parent_dir+'blast_parse/'
     cmd4 ='./blast_parse.py -b {} -i {} -o {}'.format(gene_block_names_and_genes,blast_result,blast_parse)
     print (bcolors.OKGREEN+"Parsing BLAST results"+bcolors.ENDC)
-    os.system(cmd4)
     print ('cmd4:',cmd4)    
+    rc = os.system(cmd4)
+    if rc != 0:
+        sys.exit(("{}Error in blast_parse{}".format(bcolors.WARNING, bcolcors.ENDC))
 #    
 #    ### filtering the gene blocks so that we have the most optimal gene blocks given the blast parse directory, ouput to optimized_gene_block
     optimized_gene_block = parent_dir+'optimized_gene_block/'
