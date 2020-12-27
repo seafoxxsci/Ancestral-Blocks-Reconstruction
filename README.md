@@ -31,7 +31,6 @@ bash Miniconda-latest-Linux-x86_64.sh -b -p ~/anaconda_ete/
 export PATH=~/anaconda_ete/bin:$PATH;
 
 ```
-
     conda create --name roague
     conda activate roague
 
@@ -58,14 +57,14 @@ The easiest way to run the project is to execute the script [ROAGUE](https://git
 
 ### Run on example datasets for tracing the ancestry of operons in bacteria 
 The users can run this script on the example data sets provided in directory [E_Coli](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/tree/master/E_Coli) and [B_Sub](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/tree/master/B_Sub). The two following command lines will run [roague](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/blob/master/roague.py) on our 2 directories. The final results (pdf files of our ancestral reconstructions) are stored in `result/E_Coli/visualization` and `result/B_Sub/visualization` directory by default.
-#### E_Coli
+#### For proteobacteria (reference genome: E. coli):
 ```bash
-./roague.py -g E_Coli/genomes/ -b E_Coli/gene_block_names_and_genes.txt -r NC_000913 -f E_Coli/phylo_order.txt -m global
+./roague.py -g data/ecoli/genomes/ -b ecoli/gene_block_names_and_genes.txt -r NC_000913 -f ecoli/phylo_order.txt -m global
 ```
 
-#### B_Sub
+#### For bacteroidetes (reference genome: B. subtilis):
 ```bash
-./roague.py -g B_Sub/genomes/ -b B_Sub/gene_block_names_and_genes.txt -r NC_000964 -f B_Sub/phylo_order.txt -m global
+./roague.py -g bsub/genomes/ -b bsub/gene_block_names_and_genes.txt -r NC_000964 -f bsub/phylo_order.txt -m global
 ```
 
 ### Run on example datasets for Evolutionary analysis of the bacterial gibberellin 
@@ -169,7 +168,7 @@ optional arguments:
 
 ## Examples
 
-Here are two gene blocks that were generated through our program. 
+Here are two gene blocks that were generated using ROAGUE
 1. Gene block paaABCDEFGHIJK:
 
 This gene block codes for genes involved in the catabolism of phenylacetate and it is not conserved between the group of studied bacteria.

@@ -60,3 +60,12 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# ROAGUE files
+result/
+results/
+foo*
+bar
+
+# R stuff
+.Rhistory

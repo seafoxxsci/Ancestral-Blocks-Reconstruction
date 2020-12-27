@@ -12,9 +12,11 @@
     
     
 '''
-
+from pathlib import Path
+from configparser import ConfigParser, ExtendedInterpolation
 import argparse
 import os
+import errno
 
 # Nice colors for printing
 class bcolors:
@@ -36,9 +38,20 @@ def traverseAll(path):
             res.append(root+'/'+f)
     return res    
     
-### parsing the argument from user input
+### parse the configuration INI file
+def parse_config():
+    config = ConfigParser(interpolation=ExtendedInterpolation())
 
-def parser_code():
+    config_path = ("{}/{}".format(str(Path.home()),".roaguerc"))
+    rc = config.read(config_path)
+    if not rc:
+        raise FileNotFoundError(errno.ENOENT, 
+                os.strerror(errno.ENOENT), config_path)
+    return config
+
+### parsing the command line argumnents
+
+def parse_cmd_line():
 
     parser = argparse.ArgumentParser()
                      
@@ -53,7 +66,8 @@ def parser_code():
     return parser.parse_args()
 
 if __name__ == '__main__':
-    args                       = parser_code()
+    # CLI argumnents
+    args                       = parse_cmd_line()
     genomes_directory          = args.genomes_directory
     reference                  = args.reference
     filter_file                = args.filter
@@ -66,7 +80,7 @@ if __name__ == '__main__':
     try:
         dirs = genomes_directory.split('/')
     except AttributeError:
-        print ("Genomes directory argument can't not be None, please refer to the manual of the program (typing ./roague -h)")
+        print ("Genomes directory argument can't be None, please refer to the manual of the program (typing ./roague -h)")
     outdir+='/'
     try:
         os.mkdir(outdir+'/')
@@ -88,7 +102,7 @@ if __name__ == '__main__':
         rc = os.system(cmd1)
         if rc != 0:
             sys.exit("{}Error in creating BLAST db{}".format(bcolors.WARNING,bcolors.ENDC))
-    else:
+    else: # BLAST db may exist
         if os.path.isdir(db_dir):
             print (bcolors.OKGREEN+"Skipping BLAST db creation"+bcolors.ENDC)
         else:

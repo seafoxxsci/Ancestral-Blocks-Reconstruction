@@ -1,0 +1,8 @@
+
+[DEFAULT]
+userhome = /home/idoerg
+roaguehome = ${userhome}/roague
+results = ${roaguehome}/results
+genomes = ${roaguehome}/genomes
+examples = ${genomes}/examples
+
