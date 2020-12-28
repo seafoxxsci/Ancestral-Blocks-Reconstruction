@@ -66,9 +66,9 @@ def parse_cmd_line():
     return parser.parse_args()
 
 if __name__ == '__main__':
-    # CLI argumnents
+    # CLI arguments
     args                       = parse_cmd_line()
-    genomes_directory          = args.genomes_directory
+    genomesdir                 = args.genomes_directory
     reference                  = args.reference
     filter_file                = args.filter
     method                     = args.method
@@ -76,6 +76,13 @@ if __name__ == '__main__':
     outdir                     = args.output
     approx                     = args.approx
     createdb                   = args.createdb
+    # roague.ini arguments
+    config = parse_config()
+    srcdir = config['DEFAULT']['src']
+    if not genomesdir:
+        genomesdir = config['DEFAULT']['genomes']
+    if not outdir:
+        outdir = config['DEFAULT']['results']
     # check if we are going to output results in the current directory
     try:
         dirs = genomes_directory.split('/')
@@ -97,7 +104,7 @@ if __name__ == '__main__':
     db_dir = parent_dir+ 'db'
     if createdb.upper() == "T":
         print (bcolors.OKGREEN+"Creating BLAST db"+bcolors.ENDC)
-        cmd1 ='./format_db.py -i {} -o {}'.format(genomes_directory,db_dir)
+        cmd1 ='{}/format_db.py -i {} -o {}'.format(srcdir,genomes_directory,db_dir)
         print ('cmd1:',cmd1)
         rc = os.system(cmd1)
         if rc != 0:
