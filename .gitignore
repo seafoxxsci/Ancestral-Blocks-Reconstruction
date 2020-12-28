@@ -69,3 +69,6 @@ bar
 
 # R stuff
 .Rhistory
+
+# vim swap file
+*.swp
