@@ -42,7 +42,7 @@ def traverseAll(path):
 def parse_config():
     config = ConfigParser(interpolation=ExtendedInterpolation())
 
-    config_path = ("{}/{}".format(str(Path.home()),".roaguerc"))
+    config_path = ("{}/{}".format(str(Path.home()),"roague.ini"))
     rc = config.read(config_path)
     if not rc:
         raise FileNotFoundError(errno.ENOENT, 
@@ -79,38 +79,25 @@ if __name__ == '__main__':
     # roague.ini arguments
     config = parse_config()
     srcdir = config['DEFAULT']['src']
+    rg_home_dir = config['DEFAULT']['roaguehome']
     if not genomesdir:
         genomesdir = config['DEFAULT']['genomes']
     if not outdir:
         outdir = config['DEFAULT']['results']
-    # check if we are going to output results in the current directory
-    try:
-        dirs = genomes_directory.split('/')
-    except AttributeError:
-        print ("Genomes directory argument can't be None, please refer to the manual of the program (typing ./roague -h)")
-    outdir+='/'
-    try:
-        os.mkdir(outdir+'/')
-    except:
-        print ("output directory has already been created")
-    if len(dirs)>=3: # means that we have to go to subdirectory
-        parent_dir = outdir+dirs[0]+"/"
-    else:
-        parent_dir = outdir
-    ##########################################################################
+    dbdir = config['DEFAULT']['db']
     # finding gene blocks 
         
     ### format a database for faster blasting, output in the db subdirectory
-    db_dir = parent_dir+ 'db'
+    # db_dir = parent_dir+ 'db'
     if createdb.upper() == "T":
         print (bcolors.OKGREEN+"Creating BLAST db"+bcolors.ENDC)
-        cmd1 ='{}/format_db.py -i {} -o {}'.format(srcdir,genomes_directory,db_dir)
+        cmd1 ='{}/format_db.py -i {} -o {}'.format(srcdir,genomesdir,dbdir)
         print ('cmd1:',cmd1)
         rc = os.system(cmd1)
         if rc != 0:
             sys.exit("{}Error in creating BLAST db{}".format(bcolors.WARNING,bcolors.ENDC))
     else: # BLAST db may exist
-        if os.path.isdir(db_dir):
+        if os.path.isdir(dbdir):
             print (bcolors.OKGREEN+"Skipping BLAST db creation"+bcolors.ENDC)
         else:
             raise IOError("db directory not found")
@@ -118,9 +105,11 @@ if __name__ == '__main__':
          
     
     ### Given the gene_block_names_and_genes.txt, create a gene_block_query.fa using the reference gene bank file. output in file gene_block_query.fa
-    gene_block_names_and_genes = dirs[0]+"/"+'gene_block_names_and_genes.txt'
-    gene_block_query           = parent_dir +'gene_block_query.fa'
-    cmd2 ='./make_operon_query.py -i {} -b {} -r {} -o {}'.format(genomes_directory,gene_block_names_and_genes,reference,gene_block_query)
+    # gene_block_names_and_genes = dirs[0]+"/"+'gene_block_names_and_genes.txt'
+    gene_block_names_and_genes = genomes_dir+'/gene_block_names_and_genes.txt'
+
+    gene_block_query           =  genomes_dir +'/gene_block_query.fa'
+    cmd2 ='{}/make_operon_query.py -i {} -b {} -r {} -o {}'.format(srcdir,genomesdir,gene_block_names_and_genes,reference,gene_block_query)
     print (bcolors.OKGREEN+"Querying operons"+bcolors.ENDC)
     print ('cmd2:',cmd2)
     rc = os.system(cmd2)
@@ -128,17 +117,19 @@ if __name__ == '__main__':
         sys.exit(("{}Error in make_operon_query{}".format(bcolors.WARNING, bcolcors.ENDC))
     
     ### blasting using db vs the gene_block_query.fa above. output in blast_result
-    blast_result = parent_dir+'blast_result/'
-    cmd3 ='./blast_script.py -u {} -d {} -o {}'.format(gene_block_query,db_dir,blast_result)
+    # blast_result = parent_dir+'blast_result/'
+    blast_results_dir = outdir+'/blast_results/'
+    cmd3 ='{}/blast_script.py -u {} -d {} -o {}'.format(srcdir,gene_block_query,db_dir,blast_results_dir)
     print ('cmd3:',cmd3)
     print ("{}BLASTing against genomes{}".format(bcolors.OKGREEN,bcolors.ENDC))
     rc = os.system(cmd3)
     if rc != 0:
         sys.exit(("{}Error in blast_script{}".format(bcolors.WARNING, bcolcors.ENDC))
     
-    ### parsing the blast result directory into files that group by operon names, output in blast_parse
-    blast_parse = parent_dir+'blast_parse/'
-    cmd4 ='./blast_parse.py -b {} -i {} -o {}'.format(gene_block_names_and_genes,blast_result,blast_parse)
+    ### parsing the blast result directory into files that group by operon names, output in blast_parse_dir
+    # blast_parse = parent_dir+'blast_parse/'
+    blast_parse_dir = outdir+'/blast_parse/'
+    cmd4 ='{}/blast_parse.py -b {} -i {} -o {}'.format(srcdir,gene_block_names_and_genes,blast_results_dir,blast_parse_dir)
     print (bcolors.OKGREEN+"Parsing BLAST results"+bcolors.ENDC)
     print ('cmd4:',cmd4)    
     rc = os.system(cmd4)
@@ -146,23 +137,25 @@ if __name__ == '__main__':
         sys.exit(("{}Error in blast_parse{}".format(bcolors.WARNING, bcolcors.ENDC))
 #    
 #    ### filtering the gene blocks so that we have the most optimal gene blocks given the blast parse directory, ouput to optimized_gene_block
-    optimized_gene_block = parent_dir+'optimized_gene_block/'
-    cmd5 ='./filter_operon_blast_results.py -i {} -o {}'.format(blast_parse,optimized_gene_block)
+    # optimized_gene_block = parent_dir+'optimized_gene_block/'
+    optimized_gene_block_dir = outdir+'/optimized_gene_block/'
+    cmd5 ='{}/filter_operon_blast_results.py -i {} -o {}'.format(srcdir,blast_parse_dir,optimized_gene_block_dir)
     os.system(cmd5)
     print (bcolors.OKGREEN+"Filtering gene blocks"+bcolors.ENDC)
     print ('cmd5:',cmd5)
 #
 #    ### create newick tree file. output in tree directory
-    tree_dir = parent_dir+'tree/'
-    cmd6 ='./create_newick_tree.py -G {} -f {} -r {} -o {}'.format(genomes_directory,filter_file,reference,tree_dir)
+    # tree_dir = parent_dir+'tree/'
+    treedir = outdir+'tree/'
+    cmd6 ='{}/create_newick_tree.py -G {} -f {} -r {} -o {}'.format(srcdir,genomesdir,filter_file,reference,treedir)
     print (bcolors.OKGREEN+"Create NEWICK tree file"+bcolors.ENDC)
     os.system(cmd6)
     print ('cmd6:',cmd6)    
 #    
 #    ### from the filter_operon_blast_results, create a result directory. output in result directory
-    accession = tree_dir + 'accession_to_common.csv'
+    accession = treedir + 'accession_to_common.csv'
     result    = parent_dir + 'result/'
-    cmd7      = './get_result.py -g {} -a {} -o {} -i {}'.format(gene_block_names_and_genes,accession,result,optimized_gene_block)
+    cmd7      = '{}/get_result.py -g {} -a {} -o {} -i {}'.format(srcdir,gene_block_names_and_genes,accession,result,optimized_gene_block)
     os.system(cmd7)
     print ('cmd7:',cmd7)
 #    
