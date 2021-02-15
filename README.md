@@ -1,5 +1,3 @@
-﻿
-
 # ROAGUE: **R**econstruction **o**f **A**ncestral **G**ene Blocks **U**sing **E**vents
 ## Purpose
 
@@ -7,7 +5,7 @@ ROAGUE is a tool to reconstruct ancestors of gene blocks in prokaryotic genomes.
 
 ROAGUE accepts a set of species and a gene block in a reference species. It then finds all gene blocks, orhtologous to the reference gene blocks, and reconsructs their ancestral states.
 
-## Requirements
+## Dependencies
 * [Conda](https://conda.io/miniconda.html) 
 * [Python 3+](https://www.python.org/download/releases/3.0/)
 * [Biopython 1.63+](http://biopython.org/wiki/Download)
@@ -18,76 +16,55 @@ ROAGUE accepts a set of species and a gene block in a reference species. It then
 * [PDA](http://www.cibiv.at/software/pda/#download) (optional if you want to debias your tree base on Phylogenetic Diversity)
 
 ## Installation
-Users can either use github interface Download button or type the following command in command line:
+Type the following command line in your Terminal to copy the relevant scripts and examples:
 ```bash
-git clone https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction
-```
-<!--
-Install Miniconda (you can either export the path every time you use ROAGUE, or add it to the .bashrc file). Before using
-the following command line, users will need to install [Wget](https://www.gnu.org/software/wget/).
-```bash
-wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O Miniconda-latest-Linux-x86_64.sh
-bash Miniconda-latest-Linux-x86_64.sh -b -p ~/anaconda_ete/
-export PATH=~/anaconda_ete/bin:$PATH;
-
+git clone https://github.com/seafoxxsci/Ancestral-Blocks-Reconstruction
 ```
 
-    conda create --name roague
-    conda activate roague
-
-Install Biopython and ete3 using conda (highly recommended install biopython with conda)
+Install Miniconda and wget (if you don't have these tools already), and create a new environment for ROAGUE:
 ```bash
-conda install -c bioconda biopython ete3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O Miniconda-latest-MacOSX-x86_64.sh
+bash Miniconda-latest-MacOSX-x86_64.sh
+conda create --name roague
+conda activate roague
 ```
--->
-Install ete3 and ete_toolchain for tree visualization
+
+Add the following to your `.bashrc` file by typing `nano ~/.bashrc` and pasting the following line:
 ```bash
+export PATH=~/miniconda3/envs/roague/bin:$PATH
+```
+
+Before installing any dependencies, you should set channel priorities (`conda-forge` > `bioconda` > `defaults`) in your `.condarc` file by typing `nano ~/.condarc` or by pasting the following 3 lines into your Terminal:
+```bash
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+```
+
+Go ahead and install the dependencies listed above using conda, and check your build for `ete3` which is needed for Newick tree generation and visualization:
+```bash
+conda install -c bioconda biopython blast clustalw 
 conda install -c etetoolkit ete3 ete_toolchain
+ete3 build check
 ```
 
-Install Biopython BLAST, ClustalW, MUSCLE 
+Sometimes `ete3 build check` will return a message showing that some packages such as `clustalo` are missing. In these cases, download the package from source. Below is an example for Mac OSX:
 ```bash
-conda install -c bioconda biopython blast clustalw muscle
+wget http://www.clustal.org/omega/clustal-omega-1.2.3-macosx -O $PATH/ete3_apps/bin/clustalo
+chmod u+x $PATH/ete3_apps/bin/clulstalo
 ```
 
-For PDA, check installation instructions on this website: [PDA](http://www.cibiv.at/software/pda/#download)
-
-## Usage
-
-The easiest way to run the project is to execute the script [ROAGUE](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/blob/master/roague.py) which is inside the directory [Ancestral-Blocks-Reconstruction]. 
-
-### Run on example datasets for tracing the ancestry of operons in bacteria 
-The users can run this script on the example data sets provided in directory [E_Coli](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/tree/master/E_Coli) and [B_Sub](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/tree/master/B_Sub). The two following command lines will run [roague](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/blob/master/roague.py) on our 2 directories. The final results (pdf files of our ancestral reconstructions) are stored in `result/E_Coli/visualization` and `result/B_Sub/visualization` directory by default.
-#### E_Coli
+In other cases, `ete3 build check` may return a message showing that all packages present, but you may encounter an error in `create_newick_tree.py` stating `sh: muscle not found`. This is a broad work-around:
 ```bash
-./roague.py -g E_Coli/genomes/ -b E_Coli/gene_block_names_and_genes.txt -r NC_000913 -f E_Coli/phylo_order.txt -m global
+cp $PATH/ete3_apps/bin/muscle $PATH/muscle
 ```
 
-#### B_Sub
-```bash
-./roague.py -g B_Sub/genomes/ -b B_Sub/gene_block_names_and_genes.txt -r NC_000964 -f B_Sub/phylo_order.txt -m global
+For the installation of PDA, please follow the instructions on this website: http://www.cibiv.at/software/pda/#download
+
+## Example datasets and usage
+The easiest way to run the project is to execute the script `roague.py` found inside the `Ancestral-Blocks-Reconstruction` directory. Running `roague.py --help` will output the following message which details the required inputs that you will need:
 ```
-
-### Run on example datasets for Evolutionary analysis of the bacterial gibberellin 
-The users can go to this [Gibberellin](https://github.com/nguyenngochuy91/Gibberellin-Operon) and follow the instruction in the README
-
-### Run on users' specific datasets
-If the users wants to run the program on their own datasets, then they have to provide the following inputs:
-  1. Directory that stores all the genomes file to study in genbank format 
-  2. Gene block text file that stores gene blocks in a reference species (this reference has to be in the genomes directory). The gene block format is tab delimited. The first column is the gene block name, then followed by the genes' name. For example, here is the `gene_block_names_and_genes.txt` file from Escheria coli K-12 MG1655.
-```bash
-astCADBE	astA	astB	astC	astD	astE
-atpIBEFHAGDC	atpI	atpH	atpC	atpB	atpA	atpG	atpF	atpE	atpD
-caiTABCDE	caiA	caiE	caiD	caiC	caiB	caiT
-casABCDE12	casE	casD	casA	casC	casB	cas1	cas2
-chbBCARFG	chbG	chbF	chbC	chbB	chbA	chbR
-``` 
-   3. Run ROAGUE, the output is stored in directory `result`.
-  ```bash
-  ./roague.py -g genomes_directory -b gene_block_names_and_genes.txt -r ref_accession -m global -o result
-  ```
-  ```
-  usage: roague.py [-h] [--genomes_directory GENOMES_DIRECTORY]
+usage: roague.py [-h] [--genomes_directory GENOMES_DIRECTORY]
                  [--gene_blocks GENE_BLOCKS] [--reference REFERENCE]
                  [--filter FILTER] [--method METHOD] [--output OUTPUT]
 
@@ -111,17 +88,41 @@ optional arguments:
                         support either global or local
   --output OUTPUT, -o OUTPUT
                         Output directory to store the result
+```
+  
+You can double-check your installation of ROAGUE by running `roague.py` on the following datasets, which were downloaded into the `Ancestral-Blocks-Reconstruction/E_Coli` and `Ancestral-Blocks-Reconstruction/B_Sub` directories. The finalized results, which are phylogenetic trees reconstructed from the gene block information that you provide, are by default stored in `result/E_Coli/visualization` and `result/B_Sub/visualization`:
 
-  ```
-   
-Besides, the users can also provide a filter text file. This filter file specifies the species to be included in the reconstruction analysis. The reason is that there might be families of species that are over representative in our genomes directory. This will reduce phylogenetic diversity and cause bias in our ancestral reconstruction. Hence, it is recomended to run [PDA](http://www.cibiv.at/software/pda/#download) on generated tree before proceeding further steps in our analysis. In order to achieve this, the user can follow the following instructions:
-   1. Generate a phylogenetic tree from the genomes directory
-   ```bash
-   ./create_newick_tree.py -G genomes_directory -o tree_directory -f NONE -r ref_accession
-   ```
-   ```
-   usage: create_newick_tree.py [-h] [-G DIRECTORY] [-o DIRECTORY] [-f FILE]
-                             [-m STRING] [-t FILE] [-r REF] [-q]
+### Escherichia coli K-12 MG1655
+```bash
+./roague.py --genomes_directory E_Coli/genomes/ --gene_blocks E_Coli/gene_block_names_and_genes.txt --reference NC_000913 --filter E_Coli/phylo_order.txt --method global
+```
+
+### Bacillus subtilis
+```bash
+./roague.py --genomes_directory B_Sub/genomes/ --gene_blocks B_Sub/gene_block_names_and_genes.txt --reference NC_000964 --filter B_Sub/phylo_order.txt --method global
+```
+
+### Bacterial gibberellin analysis
+If you'd like to replicate the figures in our mSphere publication (Nett et al. 2020), simply download the example datasets and follow the instructions in the README at https://github.com/nguyenngochuy91/Gibberellin-Operon.
+
+## Running ROAGUE on custom datasets
+If you want to run `roague.py` on your own datasets, please keep in mind that the following inputs are required in a unique project directory within `Ancestral-Blocks-Reconstruction`:
+  1. A `genomes` directory that contains all of the genomes you want to compare in GenBank format, including your reference species 
+  2. A tab-delimited `gene_block_names_and_genes.txt` file that contains all of the gene blocks of interest in your reference species. The first column is the gene block name, followed by the names of each gene within the block. For example, here is the `gene_block_names_and_genes.txt` file from the `E_Coli/gene_block_names_and_genes.txt` file:
+```bash
+astCADBE	astA	astB	astC	astD	astE
+atpIBEFHAGDC	atpI	atpH	atpC	atpB	atpA	atpG	atpF	atpE	atpD
+caiTABCDE	caiA	caiE	caiD	caiC	caiB	caiT
+casABCDE12	casE	casD	casA	casC	casB	cas1	cas2
+chbBCARFG	chbG	chbF	chbC	chbB	chbA	chbR
+``` 
+
+Prior to running `./roague.py` on your own dataset, you should be aware that there may be families of species that are overrepresented in your genomes directory. This will reduce phylogenetic diversity and cause bias in the ancestral reconstruction. We recommend that you run [PDA](http://www.cibiv.at/software/pda/#download) on your generated tree before proceeding by doing the following:
+
+1. Generate a phylogenetic tree from the genomes directory
+```bash
+./create_newick_tree.py -G genomes_directory -o tree_directory -f NONE -r ref_accession
+usage: create_newick_tree.py [-h] [-G DIRECTORY] [-o DIRECTORY] [-f FILE] [-m STRING] [-t FILE] [-r REF] [-q]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -137,15 +138,12 @@ optional arguments:
                         performed.
   -r REF, --ref REF     The reference genome number, such as NC_000913 for E_Coli
   -q, --quiet           Suppresses most program text outputs.
+```
 
-   ```
-   2. Download and install [PDA](http://www.cibiv.at/software/pda/#download). Debias the phylogenetic tree using `PDA` program:
-   ```bash
-   ./debias.py -i tree_directory/out_tree.nwk -o pda_result.txt -s num -r ref_accession
-   ```
-   ```
-   usage: debias.py [-h] [-i INPUT_TREE] [-o PDA_OUT] [-s TREE_SIZE] [-r REF]
-
+2. Debias the phylogenetic tree using PDA in the `./debias.py` script:
+```bash
+./debias.py -i tree_directory/out_tree.nwk -o pda_result.txt -s num -r ref_accession
+usage: debias.py [-h] [-i INPUT_TREE] [-o PDA_OUT] [-s TREE_SIZE] [-r REF]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -157,32 +155,26 @@ optional arguments:
                         Reduce the size of the tree to this size
   -r REF, --ref REF     Force to include the following species, here I force
                         to include the reference species
+```
 
-   ```
-   3. Run ROAGUE,  the output is stored in directory `result`. 
-  ```bash
-  ./roague.py -g genomes_directory -b gene_block_names_and_genes.txt -r ref_accession -f phylo_order.txt -m global -o result
-  ```
+3. Run ROAGUE,  the output is stored in directory `result`. 
+```bash
+./roague.py -g genomes_directory -b gene_block_names_and_genes.txt -r ref_accession -f phylo_order.txt -m global -o result
+```
 
-
-
-
-## Examples
-
+## Example outputs
 Here are two gene blocks that were generated through our program. 
 1. Gene block paaABCDEFGHIJK:
 
-This gene block codes for genes involved in the catabolism of phenylacetate and it is not conserved between the group of studied bacteria.
+This gene block codes for genes involved in the catabolism of phenylacetate and is not conserved between the groups of studied bacteria.
 
 ![paaABCDEFGHIJK](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/blob/master/images/paa_global_edit.png "Gene block paaABCDEFGHIJK")
 2. Gene block atpIBEFHAGDC:
 
-This gene block catalyzes the synthesis of ATP from ADP and inorganic phosphate and it is very conserved between the group of studied bacteria.
+This gene block catalyzes the synthesis of ATP from ADP and inorganic phosphate and is very conserved between the groups of studied bacteria.
 
 ![atpIBEFHAGDC](https://github.com/nguyenngochuy91/Ancestral-Blocks-Reconstruction/blob/master/images/atp_global_edit.png "Gene block atpIBEFHAGDC")
+
 ## Credits
 1. http://bioinformatics.oxfordjournals.org/content/early/2015/04/13/bioinformatics.btv128.full 
-
-
-
 

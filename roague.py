@@ -8,9 +8,6 @@
     Iddo Friedberg:
     bcolors for printing
     added createdb: creating a BLAST database as an option
-
-    
-    
 '''
 import sys
 import argparse
@@ -106,7 +103,7 @@ if __name__ == '__main__':
     print ('cmd2:',cmd2)
     rc = os.system(cmd2)
     if rc != 0:
-        sys.exit("{}Error in make_operon_query{}".format(bcolors.WARNING, bcolcors.ENDC))
+        sys.exit("{}Error in make_operon_query{}".format(bcolors.WARNING, bcolors.ENDC))
     
     ### blasting using db vs the gene_block_query.fa above. output in blast_result
     blast_result = parent_dir+'blast_result/'
@@ -115,7 +112,7 @@ if __name__ == '__main__':
     print ("{}BLASTing against genomes{}".format(bcolors.OKGREEN,bcolors.ENDC))
     rc = os.system(cmd3)
     if rc != 0:
-        sys.exit("{}Error in blast_script{}".format(bcolors.WARNING, bcolcors.ENDC))
+        sys.exit("{}Error in blast_script{}".format(bcolors.WARNING, bcolors.ENDC))
     
     ### parsing the blast result directory into files that group by operon names, output in blast_parse
     blast_parse = parent_dir+'blast_parse/'
@@ -124,7 +121,7 @@ if __name__ == '__main__':
     print ('cmd4:',cmd4)    
     rc = os.system(cmd4)
     if rc != 0:
-        sys.exit("{}Error in blast_parse{}".format(bcolors.WARNING, bcolcors.ENDC))
+        sys.exit("{}Error in blast_parse{}".format(bcolors.WARNING, bcolors.ENDC))
 #    
 #    ### filtering the gene blocks so that we have the most optimal gene blocks given the blast parse directory, ouput to optimized_gene_block
     optimized_gene_block = parent_dir+'optimized_gene_block/'
