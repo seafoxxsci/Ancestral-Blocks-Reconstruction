@@ -95,7 +95,11 @@ if __name__ == "__main__":
             name = node.name.split('_')
             # modify name to be normal, and append the gene block info to it
             # get accesion number
-            short = name[2]+'_'+name[3]
+            if len(name)==4:
+                short = name[2]+'_'+name[3]
+            else:
+                short = name[2]
+                
             # get the color
             color = color_dic[short]
             node.add_features(node_color=color)
@@ -103,7 +107,7 @@ if __name__ == "__main__":
             gene_face = TextFace(" "*int(font/5))
             gene_face.background.color = "white"
             node.add_face(gene_face,0,"aligned")
-            if "Bacillus_subtilis" in node.name or "Escherichia_coli" in node.name:
+            if "Bacillus_subtilis" in node.name or "Escherichia_coli" in node.name or "Streptococcus_pyogenes":
                 node.name = name[0]+'_'+name[1]
                 face =TextFace(node.name,fsize= font)
                 face.margin_top =10

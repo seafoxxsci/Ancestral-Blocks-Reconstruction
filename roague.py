@@ -9,9 +9,7 @@
     bcolors for printing
     added createdb: creating a BLAST database as an option
 '''
-import sys
-import argparse
-import os
+import sys, argparse, os
 
 # Nice colors for printing
 class bcolors:
@@ -125,7 +123,7 @@ if __name__ == '__main__':
 #    
 #    ### filtering the gene blocks so that we have the most optimal gene blocks given the blast parse directory, ouput to optimized_gene_block
     optimized_gene_block = parent_dir+'optimized_gene_block/'
-    cmd5 ='./filter_operon_blast_results.py -i {} -o {}'.format(blast_parse,optimized_gene_block)
+    cmd5 ='./filter_operon_blast_results.py -i {} -o {} -e {}'.format(blast_parse,optimized_gene_block, 1e-3)
     os.system(cmd5)
     print (bcolors.OKGREEN+"Filtering gene blocks"+bcolors.ENDC)
     print ('cmd5:',cmd5)
