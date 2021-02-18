@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 from __future__ import division
 from ete3 import *
-import argparse
-import os
+import os, argparse, random
 from findParent import *
-import random
-
 
 '''
 The algorithm idea is to do a global scheme as follow

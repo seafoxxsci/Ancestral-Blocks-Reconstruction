@@ -4,10 +4,7 @@
     Start   : 05/04/2016
     End     : 05/05/2016
 '''
-import os
-import argparse
-import time
-import uuid
+import os, argparse, time, uuid
 
 ###############################################################################
 ## Helper function to parse arguments, check directoring, ...

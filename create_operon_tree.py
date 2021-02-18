@@ -4,12 +4,11 @@
     Start   : 01/01/2018
     End     : 
 '''
+import os, argparse, shutil
 from Bio import SeqIO
-import argparse
-import os
-import homolog4
-import shutil
+from homolog4 import *
 from ete3 import Tree
+
 ## Traverses the genome information directory
 def traverseAll(path):
     res=[]

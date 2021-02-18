@@ -6,10 +6,9 @@
 '''
 from itertools import chain, combinations
 from ete3 import Tree,TextFace,TreeStyle
-import argparse
-from findParent_local import setOfBlocks,setOfGene
-from findParent_global import set_inner_genes,minimize_del,initialize_block_number,minimize_split,find_dup,minimize_dup
-import os
+import os, argparse
+from findParent_local import setOfBlocks, setOfGene
+from findParent_global import set_inner_genes, minimize_del, initialize_block_number, minimize_split, find_dup, minimize_dup
 
 # traverse and get the file
 def traverseAll(path):

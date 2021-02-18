@@ -5,11 +5,8 @@
     Start   : 05/04/2016
     End     : 05/05/2016
 '''
+import os, argparse, uuid, time
 
-import os
-import argparse
-import time
-import uuid
 # traverse and get the file
 def traverseAll(path):
     res=[]

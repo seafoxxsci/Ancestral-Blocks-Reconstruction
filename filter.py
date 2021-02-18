@@ -5,9 +5,7 @@
     Start   : 09/08/2016
     End     : 09/1/2016
 '''
-import os
-import argparse
-import shutil
+import os, argparse, shutil
 
 ## Traverses the genome information directory
 def traverseAll(path):

@@ -7,9 +7,7 @@
 '''
 
 from ete3 import *
-import argparse
-import os
-import random
+import os, argparse, random
 from file_handle import *
 
 ###############################################################################

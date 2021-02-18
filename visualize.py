@@ -7,6 +7,8 @@ Created on Wed Jul  6 16:14:23 2016
 """
 from ete3 import *
 from findParent_local import *
+
+
 def parse(myfile):
     data = open(myfile,'r')
     data = data.readlines()

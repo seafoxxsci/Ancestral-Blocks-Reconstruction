@@ -1,24 +1,19 @@
 #!/usr/bin/python
 
 from homolog4 import Homolog
-
 import os
-
 import argparse
 
-def parser_code():
 
+def parser_code():
     parser = argparse.ArgumentParser()
-                     
-    
     parser.add_argument("--input","-i", default="./optimized_gene_block/",help="optimized gene block ")  
     parser.add_argument("--gene_name", "-g", default='gene_block_names_and_genes.txt',
                 help="the gene_block_names_and_genes that stores the name of the operon and its genes")            
     parser.add_argument("--output","-o", default="result/",
                 help="where the result be stored (result/)")
     parser.add_argument("-a", "--accession",  default='tree/accession_to_common.csv',
-                help="Filter file, default as potential file, if NONE then not doing the parse filter")  
-                            
+                help="Filter file, default as potential file, if NONE then not doing the parse filter")                    
     return parser.parse_args()
 
 

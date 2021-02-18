@@ -1,14 +1,9 @@
 #!/usr/bin/env python
 
 from multiprocessing import Pool
-import time
-import os
-import sys
-import argparse
-import math
+import time, os, sys, argparse, math, itertools
 from homolog4 import *
 from collections import defaultdict
-import itertools
 
 # Copyright(C) 2015 David Ream
 # Released under GPL version 3 licence. http://www.gnu.org/licenses/lgpl.html

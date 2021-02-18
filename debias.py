@@ -4,9 +4,7 @@
     Start   : 06/04/2017
     End     : 06/08/2017
 '''
-import os
-import argparse
-import shutil
+import os, argparse, shutil
 from Bio import SeqIO
 from ete3 import Tree
 def parser_code():

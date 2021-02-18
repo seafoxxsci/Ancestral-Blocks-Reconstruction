@@ -5,9 +5,9 @@
     Start   : 05/08/2016
     End     : 05/08/2016
 '''
+import os, argparse
 from ete3 import *
-import argparse
-import os
+
 
 def get_arguments():
     parser = argparse.ArgumentParser()

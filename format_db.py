@@ -1,22 +1,15 @@
 #!/usr/bin/env python
-
+'''
+Copyright(C) 2015 David Ream
+Released under GPL version 3 licence. http://www.gnu.org/licenses/lgpl.html
+Do not remove this comment
+'''
 from multiprocessing import Pool
-import time
-import os
-import sys
-import argparse
+import time, os, sys, argparse
 from Bio import SeqIO
 from Bio.Seq import Seq
-# Commented out by Iddo 12/2020 no more Bio.Alphabet
-# from Bio.Alphabet import IUPAC
 from Bio.SeqUtils import GC
 from Bio.SeqRecord import SeqRecord
-#from Bio.Seq import Seq
-#from Bio.Alphabet import generic_dna
-
-# Copyright(C) 2015 David Ream
-# Released under GPL version 3 licence. http://www.gnu.org/licenses/lgpl.html
-# Do not remove this comment
 
 
 # This exists to  make the main function easier to read. It contains code to run the argument parser, and does nothing else.

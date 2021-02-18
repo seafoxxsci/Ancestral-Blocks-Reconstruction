@@ -6,8 +6,8 @@
     End     : 05/08/2016
 '''
 from ete3 import *
-import argparse
-import os
+import os, argparse
+
 
 def get_arguments():
     parser = argparse.ArgumentParser()

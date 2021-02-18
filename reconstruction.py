@@ -5,10 +5,7 @@
     Start   : 05/04/2016
     End     : 05/05/2016
 '''
-import os
-import argparse
-import time
-import uuid
+import time, os, argparse, uuid
 from findParent_local import *
 from findParent_global import *
 from ete3 import *

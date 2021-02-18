@@ -5,11 +5,9 @@
     Start   : 05/10/2016
     End     : 05//2016
 '''
-import os
-import argparse
-import uuid
+import os, sys, argparse, uuid
 from Bio import SeqIO
-import sys
+
 # traverse and get the file
 def traverseAll(path):
     res=[]

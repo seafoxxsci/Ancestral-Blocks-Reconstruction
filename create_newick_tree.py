@@ -7,19 +7,11 @@
 # This script generates a phylogenetic tree from a list of genbank accession numbers and a marker gene.
 
 # I do not know how many of these i need, i will edit later
-import os
-import sys
-import time
-import argparse
-import shutil
-from Bio import SeqIO,SeqFeature
+import os, sys, time, argparse, shutil, subprocess, traceback
+from Bio import SeqIO, SeqFeature, Application, Phylo, AlignIO
 from Bio.SeqRecord import SeqRecord
-from Bio import Application
 from Bio.Application import _Option
 from Bio.Align.Applications import MuscleCommandline
-from Bio import Phylo, AlignIO
-import subprocess
-import traceback
 from ete3 import Tree
 
 # Globals

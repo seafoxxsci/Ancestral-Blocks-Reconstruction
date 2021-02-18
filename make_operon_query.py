@@ -1,25 +1,21 @@
 #!/usr/bin/env python
 
-# TODO: remove the last of the operon references.  this has not been done yet due to a piece of untested code. 
-# until i get it teched out, i will not mess with teh variable names.
-# This code needs to be cleaned up a lot... there is a lot of testing garbage that is no longer needed!
-# It however, does work for the purposes of the paper submission.
+'''
+Copyright(C) 2015 David Ream
+Released under GPL version 3 licence. http://www.gnu.org/licenses/lgpl.html
+Do not remove this comment
 
+TODO: remove the last of the operon references.  this has not been done yet due to a piece of untested code. 
+until i get it teched out, i will not mess with teh variable names.
+This code needs to be cleaned up a lot... there is a lot of testing garbage that is no longer needed!
+It however, does work for the purposes of the paper submission.
+'''
 from multiprocessing import Pool
-import time
-import os
-import sys
-#import simplejson as json
-import json
-import argparse
+import time, os, sys, json, argparse
 from Bio import SeqIO
 from Bio.SeqUtils import GC
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
-
-# Copyright(C) 2015 David Ream
-# Released under GPL version 3 licence. http://www.gnu.org/licenses/lgpl.html
-# Do not remove this comment
 
 # This exists to  make the main function easier to read. It contains code to run the argument parser, and does nothing else.
 def parser_code():
