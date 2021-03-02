@@ -3,9 +3,9 @@
 # ROAGUE: **R**econstruction **o**f **A**ncestral **G**ene Blocks **U**sing **E**vents
 ## Purpose
 
-ROAGUE is a tool to reconstruct ancestors of gene blocks in prokaryotic genomes. Gene blocks are genes co-located on the chromosome. In many cases, gene blocks are conserved between bacterial species, sometimes as operons, when genes are co-transcribed. The conservation is rarely absolute: gene loss, gain, duplication, block splitting and block fusion are frequently observed. 
+ROAGUE is a tool to reconstruct ancestors of gene blocks in prokaryotic genomes. Gene blocks are genes co-located on the chromosome. In many cases, gene blocks are conserved between bacterial  pecies, sometimes as operons, when genes are co-transcribed. The conservation is rarely absolute: gene loss, gain, duplication, block splitting and block fusion are frequently observed. 
 
-ROAGUE accepts a set of species and a gene block in a reference species. It then finds all gene blocks, orhtologous to the reference gene blocks, and reconsructs their ancestral states.
+ROAGUE accepts a set of species and a gene block in a reference species. It then finds all gene blocks, orthologous to the reference gene blocks, and reconsructs their ancestral states.
 
 ## Requirements
 * [Conda](https://conda.io/miniconda.html) 
