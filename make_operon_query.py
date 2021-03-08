@@ -19,30 +19,19 @@ from Bio.Seq import Seq
 
 # This exists to  make the main function easier to read. It contains code to run the argument parser, and does nothing else.
 def parser_code():
-
     parser = argparse.ArgumentParser(description='Convert a gene block file into a BLAST query using one or more reference organisms.')
-    
     parser.add_argument("-i", "--infolder", dest="infolder", metavar="DIRECTORY", default='./genomes/',
-                help="Folder containing all genbank files for use by the program. The refrence genbank file must reside here.")
-    
-    #parser.add_argument("-G", "--genbank_directory", dest="genbank_directory", metavar="DIRECTORY", default='./genomes/',
-    #            help="Folder containing all genbank files for use by the program.")
-                             
+                help="Folder containing all genbank files for use by the program. The reference genbank file must reside here.")                      
     parser.add_argument("-o", "--outfile", dest="outfile", metavar="FILE", default='./gene_block_query.fa',
                 help="Resulting BLAST query file the is derived from a gene block file and refrence organism(s).")
-                
     parser.add_argument("-b", "--gene_block_file", dest="gene_block_file", metavar="FILE", default='gene_block_names_and_genes.txt',
                 help="File which contains gene block information for use in gene block queries. The file format is gene_block_name followed by the constituent gene names, tab delineated.")
-                
     parser.add_argument("-n", "--num_proc", dest="num_proc", metavar="INT", default = os.sysconf("SC_NPROCESSORS_CONF"), type=int,
                 help="Number of processors that you want this script to run on. The default is every CPU that the system has.")
-
     parser.add_argument("-r", "--refrence", dest="refrence", metavar="STRING", default = 'NC_000913',
-                help="Accession number of the refrence organism. This information is used to determine the product type of each gene (RNA/Protein), a necessary piece of information to classify the gene blocks that are under investigation.")
-               
+                help="Accession number of the refrence organism. This information is used to determine the product type of each gene (RNA/Protein), a necessary piece of information to classify the gene blocks that are under investigation.")             
     parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", default=False,
-                help="Suppresses most program text outputs.")
-                       
+                help="Suppresses most program text outputs.")         
     return parser.parse_args()
     
     

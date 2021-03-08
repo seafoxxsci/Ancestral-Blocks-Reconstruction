@@ -46,6 +46,7 @@ def chk_output_directory_path(OutputDirectory,sessionID):
            print ("Unable to create directory:", OutputDirectory)
            sys.exit()
 
+
 # convert the file into dictionary with useful info    
 def toDict(file):
     infile = open(file,'r')
@@ -143,6 +144,7 @@ def toString(dic,map_code):
         newWhole+=whole
     return wholestring,newWhole
 
+
 # solve using approx
 def approxSolve(S,C):
     geneCount = {}
@@ -187,13 +189,13 @@ def approxSolve(S,C):
             d[cost].append(copySet)
         else:
             d[cost] = [copySet]
-    return d        
-if __name__ == "__main__":
+    return d  
 
+
+if __name__ == "__main__":
     start = time.time()
     args = get_arguments()
     sessionID = uuid.uuid1()
-
     outputsession = args.OutputDirectory
     try:
         os.mkdir(outputsession)
@@ -215,5 +217,5 @@ if __name__ == "__main__":
         outfile = open(outputsession[:-1]+"_approx"+'/'+f,'w')
         outfile.write(whole)
         outfile.close()
-        
     print (time.time() - start)
+

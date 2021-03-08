@@ -1,40 +1,32 @@
 #!/usr/bin/env python
 
+'''
+Copyright(C) 2015 David Ream
+Released under GPL version 3 licence. http://www.gnu.org/licenses/lgpl.html
+Do not remove this comment
+'''
 from multiprocessing import Pool
 import time, os, sys, argparse, math, itertools
 from homolog4 import *
 from collections import defaultdict
 
-# Copyright(C) 2015 David Ream
-# Released under GPL version 3 licence. http://www.gnu.org/licenses/lgpl.html
-# Do not remove this comment
 
-# This exists to  make the main function easier to read. It contains code to run the argument parser, and does nothing else.
 def parser_code():
-
     parser = argparse.ArgumentParser(description="This program will be used to remove spurious results from a BLAST search organized by gene block.")
-    
     parser.add_argument("-i", "--infolder", dest="infolder", default='./blast_parse/', metavar="DIRECTORY",
                 help="A folder that contains the gene block BLAST results.")
-    
     parser.add_argument("-o", "--outfolder", dest="outfolder", metavar="DIRECTORY", default='./optimized_gene_block/',
                 help="Folder where the filtered results will be stored. Default is the folder './optimized_gene_block/'.")
-
     parser.add_argument("-f", "--filter", dest="filter", default='', metavar="FILE",
                 help="A file that contains the gene blocks that are under investigation.  All others will be omitted from analysis an results.")            
-    
     parser.add_argument("-n", "--num_proc", dest="num_proc", metavar="INT", default = os.sysconf("SC_NPROCESSORS_CONF"), type=int,
                 help="Number of processors that you want this script to run on. The default is every CPU that the system has.")
-                
     parser.add_argument("-e", "--eval", dest="eval", default='1e-10', metavar="FLOAT", type=float,
-                help="Use this option to change the eval for the BLAST search that is permitted. Useful if you would like to investigate what altering the eval threshold will do to your results.")
-                
+                help="Use this option to change the eval for the BLAST search that is permitted. Useful if you would like to investigate what altering the eval threshold will do to your results.")    
     parser.add_argument("-g", "--max_gap", dest="max_gap", metavar="INT", default = 500, type=int,
                 help="Largest allowable gap to be considered a gene block by the analysis.")
-                
     parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", default=False,
                 help="Suppresses most program text outputs.")
-    
     return parser.parse_args()
 
 
@@ -437,3 +429,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    

@@ -24,6 +24,7 @@ def get_accession(accession):
         dict[line[0]]= line[1]
     return dict
         
+
 ## parse the gene block names and genes txt file
 def parse(operon_genes_dict):
     result = {}
@@ -32,6 +33,8 @@ def parse(operon_genes_dict):
         line = line.strip().split()
         result[line[0]] = line[1:]
     return result
+
+
 ## Traverses the genome information directory
 def traverseAll(path):
     res=[]
@@ -40,6 +43,7 @@ def traverseAll(path):
             res.append(root+'/'+f)
     return res    
     
+
 ## given an operon file (astCADBE.txt), format the info into format easier to read 
 def formatOperon(operon,output,operon_genes_dict,accession_dict):
     alphabet = 'abcdefghijklmnop'
@@ -70,6 +74,7 @@ def formatOperon(operon,output,operon_genes_dict,accession_dict):
                 outfile.write(','.join(item)+'\t')
         outfile.write('\n')
     outfile.close()
+
 
 if __name__ == "__main__":
     args                  = parser_code()
